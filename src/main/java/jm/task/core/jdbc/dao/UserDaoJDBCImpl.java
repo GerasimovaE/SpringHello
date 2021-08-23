@@ -3,27 +3,47 @@ package jm.task.core.jdbc.dao;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
+
+
+    private Connection connection = null;
+
     public UserDaoJDBCImpl() {
 
     }
 
     private boolean connectDataBase(String SQL) {
-        Util util = new Util();
-        Connection connection = util.DBConnection();
 
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(SQL);
+        connection = Util.DBConnection();
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(SQL);
+            preparedStatement.executeUpdate();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         return false;
@@ -65,14 +85,13 @@ public class UserDaoJDBCImpl implements UserDao {
     public List<User> getAllUsers() {
 
         List<User> arrayUsers = new ArrayList<>();
+        String SQL = "SELECT * FROM users";
+        connection = Util.DBConnection();
+        PreparedStatement preparedStatement = null;
 
-        Util util = new Util();
-        Connection connection = util.DBConnection();
-
-        try (Statement statement = connection.createStatement()) {
-            String SQL = "SELECT * FROM users";
-
-            ResultSet resultSet = statement.executeQuery(SQL);
+        try {
+            preparedStatement = connection.prepareStatement(SQL);
+            ResultSet resultSet = preparedStatement.executeQuery(SQL);
 
             while (resultSet.next()) {
                 int id = resultSet.getInt(1);
@@ -88,6 +107,22 @@ public class UserDaoJDBCImpl implements UserDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         return arrayUsers;

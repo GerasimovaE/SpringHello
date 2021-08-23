@@ -11,7 +11,7 @@ public class Util {
     private static final String PASSWORD = "admin";
     private static Connection connection = null;
 
-    public Connection DBConnection() {
+    public static Connection DBConnection() {
 
         try {
             connection = DriverManager.getConnection(HOST, USERNAME, PASSWORD);
