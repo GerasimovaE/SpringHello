@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 @Component
 public class CarDaoImpl implements CarDao {
 
-    private static List<Car> list;
+    private List<Car> list;
 
-    static {
+    {
         list = new ArrayList<>();
 
         list.add(new Car("Ford", 123, Color.BLACK));
