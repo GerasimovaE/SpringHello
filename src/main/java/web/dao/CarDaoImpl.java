@@ -5,6 +5,7 @@ import web.model.Car;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,8 +24,8 @@ public class CarDaoImpl implements CarDao {
         list.add(new Car("Nissan", 987, Color.DARK_GRAY));
     }
 
-    public List<Car> getCar(int count) {return  list.stream().limit(count).collect(Collectors.toList());}
+    public List<Car> getCar(int count) {return  Collections.unmodifiableList(list.subList(0, count));}
 
     @Override
-    public List<Car> getAllCar() {return list;}
+    public List<Car> getAllCar() {return Collections.unmodifiableList(list);}
 }
