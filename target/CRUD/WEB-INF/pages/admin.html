@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+
+<div th:each="user : ${users}">
+    <a th:href="@{/admin/users/{id}(id=${user.getId()})}"
+       th:text="${user.getName() + ', ' + user.getAge()}">user</a>
+</div>
+
+<br/>
+<hr/>
+
+<a href="/admin/users/new">Create new person</a>
+
+<br/>
+<hr/>
+
+<a href="/admin/newRole">Create new role</a>
+
+<br/>
+<hr/>
+
+<a href="/admin/roles">Show roles</a>
+
+<br/>
+<hr/>
+
+<div sec:authorize="isAuthenticated()">
+    <a href="javascript: document.logoutForm.submit()" class="dropdown-toggle">Sign out</a>
+    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+        <input hidden type="submit" value="Sign Out" />
+    </form>
+</div>
+
+</body>
+</html>
