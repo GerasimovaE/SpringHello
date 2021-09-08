@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Show</title>
+</head>
+<body>
+<p th:text="${role.getName()}">VALUE</p>
+<p th:text="${'id: ' + role.getId()}">VALUE</p>
+
+<br/>
+<hr/>
+
+<a th:href="@{/admin/roles/{id}/edit(id=${role.getId()})}">Edit</a>
+
+<form th:method="DELETE" th:action="@{/admin/roles/{id}(id=${role.getId()})}" th:object="${role}">
+    <input type="submit" value="Delete"/>
+</form>
+
+<br/>
+<hr/>
+
+<div sec:authorize="isAuthenticated()">
+    <a href="javascript: document.logoutForm.submit()" class="dropdown-toggle">Sign out</a>
+    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+        <input hidden type="submit" value="Sign Out" />
+    </form>
+</div>
+
+</body>
+</html>

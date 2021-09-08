@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>New user</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/admin/role}" th:object="${role}">
+    <label for="name">Enter name: </label>
+    <input type="text" th:field="*{name}" id="name"/>
+    <br/>
+    <input type="submit" value="Create!"/>
+</form>
+
+<br/>
+<hr/>
+
+<div sec:authorize="isAuthenticated()">
+    <a href="javascript: document.logoutForm.submit()" class="dropdown-toggle">Sign out</a>
+    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+        <input hidden type="submit" value="Sign Out" />
+    </form>
+</div>
+
+</body>
+</html>
