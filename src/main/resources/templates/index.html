@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+
+    <script type="text/javascript" src="webjars/jquery/3.6.0/jquery.js"></script>
+    <script type="text/javascript" src="webjars/bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <title>Admin panel</title>
+</head>
+<body>
+
+<header class="container-fluid d-flex flex-row align-items-center justify-content-between p-3 bg-dark text-white">
+    <div><b id="emailCurrentUser" sec:authentication="name"/> with roles:
+        <th:block th:each="role : ${#authentication.authorities}">
+            &nbsp;<span th:text="${role.getName()}"/>
+        </th:block></div>
+    </div>
+    <div><a class="text-light" th:href="@{/logout}">Logout</a></div>
+</header>
+
+<div class="container-fluid d-flex flex-row vh-200 p-0">
+    <div th:replace="fragments/navigation :: navigation(currentPage='admin')"/>
+
+    <div class="flex-grow-1 bg-light p-3">
+        <h1 id="titleMain">Admin panel</h1>
+        <div class="container-fluid">
+            <nav>
+                <div class="nav nav-tabs border-bottom-0" id="nav-tab" role="tablist">
+                    <a class="nav-link active" id="nav-users_table-link" data-toggle="tab" href="#nav-users_table"
+                       role="tab" aria-controls="nav-users_table">Users table</a>
+                    <a class="nav-link" id="nav-user_form-link" data-toggle="tab" href="#nav-user_form"
+                       role="tab" aria-controls="nav-user_form">New user</a>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-users_table" role="tabpanel">
+                    <div class="row border">
+                        <h5 class="m-2" id="title_table">All users</h5>
+                    </div>
+                    <div class="row border bg-white pb-2" id="userTable">
+                        <div th:replace="fragments/users-table"/>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-user_form" role="tabpanel">
+                    <div class="row border">
+                        <h5 class="m-2">Add new user</h5>
+                    </div>
+                    <div class="row border bg-white pb-2">
+                        <div th:replace="fragments/userAddForm"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br/>
+<hr/>
+
+<!--скрытое дефолтное модальное окно -->
+<div class="modal fade" id="someDefaultModal" tabindex="-1" role="dialog" aria-labelledby="someDefaultModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+            </div>
+
+            <div class="modal-footer">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" th:src="@{/js/main.js}" src="../static/js/main.js"></script>
+
+</body>
+</html>
